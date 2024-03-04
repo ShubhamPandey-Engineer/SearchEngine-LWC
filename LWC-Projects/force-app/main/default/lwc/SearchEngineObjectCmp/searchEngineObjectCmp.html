@@ -1,0 +1,91 @@
+<template>
+	<section class='slds-p-around_medium'>
+		<lightning-layout class='cmp-container' horizontal-align="center" multiple-rows="true">
+
+			<lightning-layout-item size="10" medium-device-size="3">
+				<lightning-combobox title="Search Records" label='Search Records' field-level-help="Select a object"
+					options={objectDropDropdownOptions} onchange={handleSObjectChange}></lightning-combobox>
+			</lightning-layout-item>
+
+
+			<lightning-layout-item size="4" medium-device-size="1" class="slds-m-top_large slds-m-left_small">
+				<lightning-button variant="Brand" label="Apply Filter" title="Apply Filter"
+					onclick={handleFieldsFilterBtn} disabled={filterConfig.disableSearchButtons}></lightning-button>
+				<template lwc:if={showFilterModal}>
+					<div class="custom-modal">
+						<section role="dialog" class="slds-modal slds-fade-in-open">
+							<div class="slds-modal__container">
+								<header class="slds-modal__header">
+									<span class="slds-modal__close">
+                                         <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close"></lightning-icon>
+                                     </span>
+									<h2 class="slds-text-heading_medium slds-hyphenate">Filters Fields</h2>
+								</header>
+								<div class="slds-modal__content slds-p-around_medium">
+									<section>
+										<lightning-checkbox-group name="Checkbox Group"
+											label="Select the below field to apply filters :" value={selectedValue}
+											options={filterCheckboxOptions} onchange={handleSearchFields}>
+										</lightning-checkbox-group>
+									</section>
+
+									<lightning-layout multiple-rows>
+										<template for:each={selectedFilters} for:item="field" for:index="index">
+											<lightning-layout-item key={field} size="12" padding="around-small"
+												small-device-size="3" medium-device-size="4">
+												<lightning-input type="text" variant="standard" name={field}
+													label={field} placeholder={field} onchange={handleInput}
+													value={dataToSend.field}>
+												</lightning-input>
+
+											</lightning-layout-item>
+										</template>
+									</lightning-layout>
+								</div>
+								<footer class="slds-modal__footer">
+									<lightning-button label="Cancel" title="Cancel" class="slds-m-right_small"
+										onclick={handleCancelFilterBtn}>
+									</lightning-button>
+									<lightning-button variant="brand" label="Search" title="Search"
+										onclick={handleSubmitFilterBtn}></lightning-button>
+								</footer>
+							</div>
+						</section>
+						<div class="slds-backdrop slds-backdrop_open"></div>
+					</div>
+				</template>
+			</lightning-layout-item>
+
+
+			<lightning-layout-item size="3" medium-device-size="1" class="slds-m-top_large ">
+				<lightning-button variant="brand" label="Search" title="Search"
+					disabled={filterConfig.disableSearchButtons} onclick={handleSubmitFilterBtn}>
+				</lightning-button>
+			</lightning-layout-item>
+
+			<lightning-layout-item size="10"  medium-device-size="7" class="slds-m-top_small">
+				<lightning-layout class='cmp-container' horizontal-align="center" multiple-rows="true">
+
+					<lightning-layout-item size="12"  medium-device-size="9" class="slds-m-top_small">
+
+						<lightning-formatted-text class='pill-header' value='Selected filters :'>
+						</lightning-formatted-text>
+					</lightning-layout-item>
+
+					<lightning-layout-item size="12"   medium-device-size="9" class="slds-m-top_small">
+						<template for:each={filterConfig.filterFields} for:item="selectedField" for:index="index">
+
+
+							<lightning-badge class='slds-p-right_small' key={selectedField} label={selectedField}
+								variant='inverse' onremove={handleRemovePill}></lightning-badge>
+
+						</template>
+					</lightning-layout-item>
+
+				</lightning-layout>
+			</lightning-layout-item>
+
+
+		</lightning-layout>
+	</section>
+</template>
