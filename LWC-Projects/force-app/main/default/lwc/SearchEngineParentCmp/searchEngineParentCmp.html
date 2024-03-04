@@ -1,0 +1,15 @@
+<template>
+
+ <lightning-card class='slds-p-around_medium'  variant="Narrow"  title="Search Policies...">
+     
+     <c-search-engine-object-cmp onfilter={handleFilterRequest}  onobjectchange={handleObjectChange}></c-search-engine-object-cmp>
+
+     <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon>
+       
+     <template lwc:if={objectResultFields}>
+     <c-search-engine-result-cmp  get-data = {filteredData} object-result-fields = {objectResultFields} ></c-search-engine-result-cmp>
+     </template>
+
+ </lightning-card>
+
+</template>
